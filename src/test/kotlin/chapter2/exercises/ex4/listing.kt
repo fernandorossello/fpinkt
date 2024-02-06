@@ -8,12 +8,11 @@ import utils.SOLUTION_HERE
 class Exercise4 : WordSpec({
     // tag::init[]
     fun <A, B, C> uncurry(f: (A) -> (B) -> C): (A, B) -> C =
-
-        SOLUTION_HERE()
+        {a,b -> f(a)(b)  }
     // end::init[]
 
     "uncurry" should {
-        """!take a function accepting two values and then apply that
+        """take a function accepting two values and then apply that
             function to the components of the pair which is the
             second argument""" {
 
