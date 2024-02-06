@@ -8,12 +8,11 @@ import utils.SOLUTION_HERE
 class Exercise5 : WordSpec({
     // tag::init[]
     fun <A, B, C> compose(f: (B) -> C, g: (A) -> B): (A) -> C =
-
-        SOLUTION_HERE()
+        {a -> f(g(a))}
     // end::init[]
 
     "compose" should {
-        "!apply function composition over two functions" {
+        "apply function composition over two functions" {
             val fahrenheit2celsius: (Double) -> String =
                 compose<Double, Double, String>(
                     { b -> "$b degrees celsius" },
