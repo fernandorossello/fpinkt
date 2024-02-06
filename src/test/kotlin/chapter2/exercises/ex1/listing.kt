@@ -8,11 +8,14 @@ import utils.SOLUTION_HERE
 class Exercise1 : WordSpec({
 
     fun fib(i: Int): Int {
-        tailrec fun go(i: Int, prev:Int, current:Int, upTo:Int): Int =
-            if(upTo<=i) { prev+current}
-            else { go(i+1,current,prev+current, upTo)}
+        tailrec fun go(i: Int, prev: Int, current: Int, upTo: Int): Int =
+            if (upTo <= i) {
+                prev + current
+            } else {
+                go(i + 1, current, prev + current, upTo)
+            }
 
-        return go(2,0,1,i)
+        return go(2, 0, 1, i)
     }
 
     "fib" should {
