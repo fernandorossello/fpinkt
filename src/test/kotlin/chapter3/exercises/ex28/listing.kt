@@ -5,31 +5,25 @@ import chapter3.Leaf
 import chapter3.Tree
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.WordSpec
-import utils.SOLUTION_HERE
 
 // tag::init[]
 fun <A, B> fold(ta: Tree<A>, l: (A) -> B, b: (B, B) -> B): B =
+    when (ta) {
+        is Leaf -> l(ta.value)
+        is Branch -> b(fold(ta.left, l, b), fold(ta.right, l, b))
+    }
 
-    SOLUTION_HERE()
+fun <A> sizeF(ta: Tree<A>): Int = fold(ta,{_ -> 1}, {l,r -> l+r+1})
 
-fun <A> sizeF(ta: Tree<A>): Int =
+fun maximumF(ta: Tree<Int>): Int = fold(ta, { v -> v }, { l, r -> maxOf(l,r)  })
 
-    SOLUTION_HERE()
+fun <A> depthF(ta: Tree<A>): Int = fold(ta, { _ -> 0 }, {l,r -> maxOf(l,r)+1})
 
-fun maximumF(ta: Tree<Int>): Int =
 
-    SOLUTION_HERE()
+fun <A, B> mapF(ta: Tree<A>, f: (A) -> B): Tree<B> = fold(ta, { v:A -> Leaf(f(v))}, {l:Tree<B>,r: Tree<B> -> Branch(l,r) })
 
-fun <A> depthF(ta: Tree<A>): Int =
-
-    SOLUTION_HERE()
-
-fun <A, B> mapF(ta: Tree<A>, f: (A) -> B): Tree<B> =
-
-    SOLUTION_HERE()
 // end::init[]
 
-//TODO: Enable tests by removing `!` prefix
 class Exercise28 : WordSpec({
     "tree fold" should {
 
@@ -46,19 +40,19 @@ class Exercise28 : WordSpec({
                 )
             )
         )
-        "!generalise size" {
+        "generalise size" {
             sizeF(tree) shouldBe 15
         }
 
-        "!generalise maximum" {
+        "generalise maximum" {
             maximumF(tree) shouldBe 21
         }
 
-        "!generalise depth" {
+        "generalise depth" {
             depthF(tree) shouldBe 5
         }
 
-        "!generalise map" {
+        "generalise map" {
             mapF(tree) { it * 10 } shouldBe
                 Branch(
                     Branch(Leaf(10), Leaf(20)),
