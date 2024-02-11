@@ -9,14 +9,15 @@ import utils.SOLUTION_HERE
 
 // tag::init[]
 fun depth(tree: Tree<Int>): Int =
-
-    SOLUTION_HERE()
+    when(tree) {
+        is Leaf -> 0
+        is Branch -> maxOf(depth(tree.left), depth(tree.right)) + 1
+    }
 // end::init[]
 
-//TODO: Enable tests by removing `!` prefix
 class Exercise26 : WordSpec({
     "tree depth" should {
-        "!determine the maximum depth from the root to any leaf" {
+        "determine the maximum depth from the root to any leaf" {
             val tree = Branch( //0
                 Branch(Leaf(1), Leaf(2)), //2
                 Branch(
