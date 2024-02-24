@@ -1,8 +1,11 @@
 package chapter6.exercises.ex9
 
+import chapter6.RNG
 import chapter6.Rand
+import chapter6.map
 // import chapter6.map
 import chapter6.rng1
+import chapter6.solutions.ex8.flatMap
 // import chapter6.solutions.ex8.flatMap
 import chapter6.unit
 import io.kotlintest.shouldBe
@@ -13,13 +16,16 @@ import utils.SOLUTION_HERE
 class Exercise9 : WordSpec({
 
     //tag::init1[]
+    // fun <A, B> flatMap(f: Rand<A>, g: (A) -> Rand<B>): Rand<B>
+    // fun <A, B> map(s: Rand<A>, f: (A) -> B): Rand<B>
     fun <A, B> mapF(ra: Rand<A>, f: (A) -> B): Rand<B> =
-
-        SOLUTION_HERE()
+        flatMap(ra) {
+            a:A -> {rng: RNG -> f(a) to rng}
+        }
     //end::init1[]
 
     "mapF" should {
-        "!map over a value using flatMap" {
+        "map over a value using flatMap" {
             mapF(
                 unit(1),
                 { a -> a.toString() })(rng1).first shouldBe "1"
@@ -35,12 +41,14 @@ class Exercise9 : WordSpec({
         rb: Rand<B>,
         f: (A, B) -> C
     ): Rand<C> =
+        flatMap(ra) { a:A ->
+             map(rb) { b:B ->  f(a,b) }
+        }
 
-        SOLUTION_HERE()
     //end::init2[]
 
     "map2F" should {
-        "!combine the results of two actions" {
+        "combine the results of two actions" {
 
             val combined: Rand<String> =
                 map2F(
