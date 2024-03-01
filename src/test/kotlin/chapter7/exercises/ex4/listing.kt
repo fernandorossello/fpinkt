@@ -11,8 +11,7 @@ object Pars {
 
     //tag::init[]
     fun <A, B> asyncF(f: (A) -> B): (A) -> Par<B> =
-
-        SOLUTION_HERE()
+        { a: A ->  lazyUnit { f(a) } }
     //end::init[]
 
     fun <A> unit(a: () -> A): Par<A> =
