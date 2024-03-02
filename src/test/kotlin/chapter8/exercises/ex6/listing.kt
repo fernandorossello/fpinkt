@@ -9,12 +9,10 @@ data class Gen<A>(val sample: State<RNG, A>) {
 
     companion object {
         fun <A> listOfN(gn: Gen<Int>, ga: Gen<A>): Gen<List<A>> =
-
-            SOLUTION_HERE()
+            gn.flatMap { n:Int -> Gen(State.sequence(List(n) {ga.sample})) }
     }
 
     fun <B> flatMap(f: (A) -> Gen<B>): Gen<B> =
-
-        SOLUTION_HERE()
+        Gen(sample.flatMap { a-> f(a).sample })
 }
 //end::init[]
