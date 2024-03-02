@@ -13,8 +13,7 @@ data class Gen<A>(val sample: State<RNG, A>) {
 
         //tag::init[]
         fun <A> union(ga: Gen<A>, gb: Gen<A>): Gen<A> =
-
-            SOLUTION_HERE()
+            boolean().flatMap { b:Boolean -> if(b) ga else gb }
         //end::init[]
     }
 
