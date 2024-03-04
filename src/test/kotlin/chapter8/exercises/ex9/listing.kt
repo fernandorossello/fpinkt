@@ -25,12 +25,21 @@ data class Falsified(
 
 //tag::init[]
 data class Prop(val run: (TestCases, RNG) -> Result) {
-    fun and(p: Prop): Prop =
-
-        SOLUTION_HERE()
+    fun and(p: Prop): Prop = Prop { tc: TestCases, rng: RNG ->
+        val result = this.run(tc, rng)
+        when (result) {
+            is Falsified -> result;
+            is Passed -> p.run(tc, rng)
+        }
+    }
 
     fun or(p: Prop): Prop =
-
-        SOLUTION_HERE()
+        Prop { tc: TestCases, rng: RNG ->
+            val result = this.run(tc, rng)
+            when (result) {
+                is Falsified -> p.run(tc, rng)
+                is Passed -> result;
+            }
+        }
 }
 //end::init[]
