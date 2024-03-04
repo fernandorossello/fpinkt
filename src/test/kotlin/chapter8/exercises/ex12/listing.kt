@@ -9,7 +9,6 @@ data class SGen<A>(val forSize: (Int) -> Gen<A>)
 data class Gen<A>(val sample: State<RNG, A>) {
     //tag::init[]
     fun listOf(): SGen<List<A>> =
-
-        SOLUTION_HERE()
+        SGen { size:Int -> Gen(State.sequence(List(size) {sample})) }
     //end::init[]
 }
