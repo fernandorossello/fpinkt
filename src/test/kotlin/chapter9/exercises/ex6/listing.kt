@@ -10,8 +10,7 @@ abstract class Listing : ParserDsl<ParseError>() {
 
         //tag::init1[]
         val parser: Parser<Int> =
-
-            SOLUTION_HERE()
+            regex("[0-9]+").flatMap { s:String -> listOfN(s[0].toInt(),char('a')).slice().map { it.length } }
         //end::init1[]
     }
 }
