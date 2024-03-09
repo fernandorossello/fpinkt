@@ -23,4 +23,5 @@ fun <A> many(pa: Parser<A>): Parser<List<A>> =
     map2(pa, defer { many(pa) }) { a, la ->
         listOf(a) + la
     } or succeed(emptyList())
+
 //end::init2[]
