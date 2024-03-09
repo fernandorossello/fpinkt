@@ -13,8 +13,7 @@ abstract class Listing : ParserDsl<ParseError>() {
             pa: Parser<A>,
             pb: Parser<B>
         ): Parser<Pair<A, B>> =
-
-            SOLUTION_HERE()
+            pa.flatMap { a: A -> pb.map { b: B -> a to b } }
         //end::init1[]
 
         //tag::init2[]
@@ -23,8 +22,7 @@ abstract class Listing : ParserDsl<ParseError>() {
             pb: Parser<B>,
             f: (A, B) -> C
         ): Parser<C> =
-
-            SOLUTION_HERE()
+            pa.flatMap { a: A -> pb.map { b: B ->  f(a,b) } }
         //end::init2[]
     }
 }
