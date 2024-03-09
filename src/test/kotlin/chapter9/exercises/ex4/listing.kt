@@ -7,17 +7,24 @@ import utils.SOLUTION_HERE
 
 abstract class Listing : ParserDsl<ParseError>() {
 
+    /*
+    Implement the listOfN combinator introduced earlier using map2 and succeed.
+     */
+
     fun <A, B, C> map2(
         pa: Parser<A>,
         pb: Parser<B>,
         f: (A, B) -> C
-    ): Parser<C> = TODO()
+    ): Parser<C> = (pa product {pb}).map { (a:A,b:B) -> f(a,b) }
 
     init {
         //tag::init1[]
         fun <A> listOfN(n: Int, pa: Parser<A>): Parser<List<A>> =
-
-            SOLUTION_HERE()
+            if(n > 0) {
+                map2(pa, listOfN(n-1,pa)) { a,la -> listOf(a) + la } }
+            else {
+                succeed(emptyList())
+            }
         //end::init1[]
     }
 }
