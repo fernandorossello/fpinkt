@@ -5,9 +5,15 @@ import chapter10.Monoid
 import utils.SOLUTION_HERE
 
 //tag::init1[]
-fun <A> endoMonoid(): Monoid<(A) -> A> =
+fun <A> endoMonoid(): Monoid<(A) -> A> = object : Monoid<(A) -> A> {
+    override fun combine(a1: (A) -> A, a2: (A) -> A): (A) -> A = {
+        a: A -> a2(a1(a))
+    }
 
-    SOLUTION_HERE()
+    override val nil: (A) -> A
+        get() = { a -> a }
+}
+
 //end::init1[]
 
 //tag::init2[]
