@@ -8,9 +8,15 @@ import io.kotlintest.specs.WordSpec
 import utils.SOLUTION_HERE
 
 //tag::init1[]
-fun <A, B> functionMonoid(b: Monoid<B>): Monoid<(A) -> B> =
+fun <A, B> functionMonoid(b: Monoid<B>): Monoid<(A) -> B> = object : Monoid<(A) -> B> {
+    override fun combine(a1: (A) -> B, a2: (A) -> B): (A) -> B = {
+        a:A -> b.combine(a1(a),a2(a))
+    }
 
-    SOLUTION_HERE()
+    override val nil: (A) -> B
+        get() = { b.nil }
+}
+
 //end::init1[]
 
 //TODO: Enable tests by removing `!` prefix
