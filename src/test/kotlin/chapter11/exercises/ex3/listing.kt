@@ -1,8 +1,10 @@
 package chapter11.exercises.ex3
 
 import arrow.Kind
+import chapter10.Cons
 import chapter10.List
 import chapter11.Functor
+import chapter11.sec1.map
 import utils.SOLUTION_HERE
 
 interface Monad<F> : Functor<F> {
@@ -21,13 +23,16 @@ interface Monad<F> : Functor<F> {
         la: List<A>,
         f: (A) -> Kind<F, B>
     ): Kind<F, List<B>> =
-
-        SOLUTION_HERE()
+        la.foldRight(unit(List.empty<B>())) { el: A, ac: Kind<F, List<B>> ->
+            map2(ac, f(el)) { lb: List<B>, b:B -> Cons(b,lb) }
+        }
     //end::traverse[]
 
     //tag::sequence[]
     fun <A> sequence(lfa: List<Kind<F, A>>): Kind<F, List<A>> =
+        lfa.foldLeft(unit(List.empty<A>())) { kla: Kind<F, List<A>>, ka: Kind<F, A> ->
+            map2(kla,ka) { la: List<A>, a: A -> Cons(a,la) }
+        }
 
-        SOLUTION_HERE()
     //end::sequence[]
 }
