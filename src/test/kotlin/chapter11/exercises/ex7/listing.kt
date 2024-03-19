@@ -14,7 +14,6 @@ interface Monad<F> : Functor<F> {
         f: (A) -> Kind<F, B>,
         g: (B) -> Kind<F, C>
     ): (A) -> Kind<F, C> =
-
-        SOLUTION_HERE()
+        {a:A -> flatMap(f(a),g) }
     //end::init[]
 }
